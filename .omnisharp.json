@@ -1,0 +1,15 @@
+{
+  "omnisharp": {
+    "enableRoslynAnalyzers": true,
+    "enableEditorConfigSupport": true,
+    "sdk": {
+      "version": "latest"
+    },
+    "net6": {
+      "enabled": false
+    }
+  },
+  "formattingOptions": {
+    "newLine": "\n"
+  }
+}
