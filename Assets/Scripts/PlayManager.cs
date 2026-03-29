@@ -1,5 +1,8 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
+using Unity.VisualScripting;
+
 public class PlayManager : MonoBehaviour
 {
     public static PlayManager Instance;
@@ -8,16 +11,14 @@ public class PlayManager : MonoBehaviour
         private int nextSceneIndex = 0;
     //Finishing logic
         private bool playerFinished = false;
+    //End of game screen
+        [SerializeField] private GameObject GameEndScreen;
 
     //--------------------------------- UPDATE
     void Update()
     {
         ReloadScene();
         LoadNextScene();
-        if (playerFinished == true)
-        {
-            Debug.Log("Ahahahaha!");
-        }
     }
     //---------------------------------
     
@@ -62,6 +63,7 @@ public class PlayManager : MonoBehaviour
                     Debug.Log("LAST scene! Loading 0th scene...");
                     SceneManager.LoadScene(nextSceneIndex);
                 }
+                
                 ReportFinishExit(); //exits finish bool
             }
         }
@@ -86,7 +88,15 @@ public class PlayManager : MonoBehaviour
     /// Reports player entering finish from different script. Used in Finish.cs script.
     /// </summary>
     public void ReportFinishEnter()
-    {
+    {   
+        if(GameEndScreen != null)
+        {
+            TurnOnEndScreen();
+        }
+        else
+        {
+            Debug.Log("No Game End Screen.");
+        }
         playerFinished = true;
     }
     /// <summary>
@@ -94,23 +104,46 @@ public class PlayManager : MonoBehaviour
     /// </summary>
     public void ReportFinishExit()
     {
+        if (GameEndScreen != null)
+        {
+            TurnOffEndScreene();
+        }
+        else
+        {
+            Debug.Log("No Game End Screen.");
+        }
         playerFinished = false;
+    }
+    
+    void TurnOnEndScreen()
+    {
+        GameEndScreen.SetActive(true);
+    }
+    void TurnOffEndScreene()
+    {
+        GameEndScreen.SetActive(false);
     }
     //---------------------------------
     
     //--------------------------------- ON SCENE LOADED
     //Runs third
     //Sets scene index variables 
+    //Sets referene to game end screen
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        //SCENE INDEXES
         Debug.Log($"OnSceneLoaded: {scene.name}");
         Debug.Log(mode);
-        Debug.Log("--Setting scene indexes--");
+        Debug.Log("Setting scene indexes:");
+        //Current scene index
         currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         Debug.Log($"Current scene: {currentSceneIndex}");
+        //Next scene index
         nextSceneIndex = currentSceneIndex + 1;
         Debug.Log($"Next scene: {nextSceneIndex}");
-        Debug.Log("----");
+        Debug.Log("FINISHED setting Scene Indexes");
+
+        ReportFinishExit();
     }
     //---------------------------------
     

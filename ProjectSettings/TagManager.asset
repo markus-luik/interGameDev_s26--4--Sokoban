@@ -5,6 +5,10 @@ TagManager:
   serializedVersion: 3
   tags:
   - block
+  - PlayManager
+  - GameEndScreen
+  - GameEndScreen_BigText
+  - GameEndScreen_SmallText
   layers:
   - Default
   - TransparentFX
